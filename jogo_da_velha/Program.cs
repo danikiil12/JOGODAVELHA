@@ -1,10 +1,12 @@
 ﻿using System;
+
 class JogoDaVelha
 {
 	private bool fimDeJogo;
 	private char[] posicoes;
 	private char vez;
 	private int quantidadePreenchida;
+
 	public JogoDaVelha()
 	{
 		fimDeJogo = false;
@@ -12,6 +14,7 @@ class JogoDaVelha
 		vez = 'X';
 		quantidadePreenchida = 0;
 	}
+
 	public void Iniciar()
 	{
 		while (!fimDeJogo)
@@ -23,10 +26,12 @@ class JogoDaVelha
 			MudarVez();
 		}
 	}
+
 	private void MudarVez()
 	{
 		vez = vez == 'X' ? 'O' : 'X';
 	}
+
 	private void VerficarFimDeJogo()
 	{
 		if (quantidadePreenchida < 5)
@@ -43,6 +48,7 @@ class JogoDaVelha
 			Console.WriteLine("Fim de jogo!!! EMPATE");
 		}
 	}
+
 	private bool ExisteVitoriaHorizontal()
 	{
 		bool vitoriaLinha1 = posicoes[0] == posicoes[1] && posicoes[0] == posicoes[2];
@@ -50,6 +56,7 @@ class JogoDaVelha
 		bool vitoriaLinha3 = posicoes[6] == posicoes[7] && posicoes[6] == posicoes[8];
 		return vitoriaLinha1 || vitoriaLinha2 || vitoriaLinha3;
 	}
+
 	private bool ExisteVitoriaVertical()
 	{
 		bool vitoriaLinha1 = posicoes[0] == posicoes[3] && posicoes[0] == posicoes[6];
@@ -57,12 +64,14 @@ class JogoDaVelha
 		bool vitoriaLinha3 = posicoes[2] == posicoes[5] && posicoes[2] == posicoes[8];
 		return vitoriaLinha1 || vitoriaLinha2 || vitoriaLinha3;
 	}
+
 	private bool ExisteVitoriaDiagonal()
 	{
 		bool vitoriaLinha1 = posicoes[2] == posicoes[4] && posicoes[2] == posicoes[6];
 		bool vitoriaLinha2 = posicoes[0] == posicoes[4] && posicoes[0] == posicoes[8];
 		return vitoriaLinha1 || vitoriaLinha2;
 	}
+
 	private void LerEscolhaDoUsuario()
 	{
 		Console.WriteLine($"Agora é a vez de {vez}, entre uma posição de 1 a 9 que esteja disponível na tabela");
@@ -74,22 +83,26 @@ class JogoDaVelha
 		}
 		PreencherEscolha(posicaoEscolhida);
 	}
+
 	private void PreencherEscolha(int posicaoEscolhida)
 	{
 		int indice = posicaoEscolhida - 1;
 		posicoes[indice] = vez;
 		quantidadePreenchida++;
 	}
+
 	private bool ValidarEscolhaUsuario(int posicaoEscolhida)
 	{
 		int indice = posicaoEscolhida - 1;
 		return posicoes[indice] != 'O' && posicoes[indice] != 'X';
 	}
+
 	private void RenderizarTabela()
 	{
 		Console.Clear();
 		Console.WriteLine(ObterTabela());
 	}
+
 	private string ObterTabela()
 	{
 		return $"__{posicoes[0]}__|__{posicoes[1]}__|__{posicoes[2]}__\n" +
@@ -106,3 +119,22 @@ class Program
 		jogo.Iniciar();
 	}
 }
+					Console.Clear();
+					Console.WriteLine(ObterTabela());
+				}
+				private string ObterTabela()
+				{
+					return $"__{posicoes[0]}__|__{posicoes[1]}__|__{posicoes[2]}__\n" +
+						   $"__{posicoes[3]}__|__{posicoes[4]}__|__{posicoes[5]}__\n" +
+						   $"  {posicoes[6]}  |  {posicoes[7]}  |  {posicoes[8]}  \n\n";
+				}
+			}
+
+			class Program
+			{
+				static void Main(string[] args)
+				{
+					var jogo = new JogoDaVelha();
+					jogo.Iniciar();
+				}
+			}
