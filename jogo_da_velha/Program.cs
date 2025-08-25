@@ -5,8 +5,13 @@ namespace JogoDaVelha
 	{
 		private static void Main(string[] args)
 		{
-			var jogo = new JogoDaVelha();
-			jogo.Iniciar();
+			do
+			{
+				var jogo = new JogoDaVelha();
+				jogo.Iniciar();
+				Console.WriteLine("Deseja jogar novamente? (s/n)");
+			}
+			while ((Console.ReadLine()?.Trim().ToLower() ?? "n").StartsWith("s"));
 		}
 	}
 	public class JogoDaVelha
@@ -24,9 +29,15 @@ namespace JogoDaVelha
 		}
 		public void Iniciar()
 		{
+			// Proteção extra: garantir que o tabuleiro sempre inicie limpo
+			for (int i = 0; i < 9; i++)
+				posicoes[i] = (char)('1' + i);
+			fimDeJogo = false;
+			quantidadePreenchida = 0;
+			vez = 'X';
+			RenderizarTabela(); // Mostra o tabuleiro inicial
 			while (!fimDeJogo)
 			{
-				RenderizarTabela();
 				LerEscolhaDoUsuario();
 				RenderizarTabela();
 				VerficarFimDeJogo();
@@ -95,9 +106,14 @@ namespace JogoDaVelha
 		}
 		private string ObterTabela()
 		{
-			return $"__{posicoes[0]}__|__{posicoes[1]}__|__{posicoes[2]}__\n" +
-				   $"__{posicoes[3]}__|__{posicoes[4]}__|__{posicoes[5]}__\n" +
-				   $"  {posicoes[6]}  |  {posicoes[7]}  |  {posicoes[8]}  \n\n";
+			string[] display = new string[9];
+			for (int i = 0; i < 9; i++)
+			{
+				display[i] = (posicoes[i] == 'X' || posicoes[i] == 'O') ? posicoes[i].ToString() : (i+1).ToString();
+			}
+			return $"__{display[0]}__|__{display[1]}__|__{display[2]}__\n" +
+				   $"__{display[3]}__|__{display[4]}__|__{display[5]}__\n" +
+				   $"  {display[6]}  |  {display[7]}  |  {display[8]}  \n\n";
 		}
 	}
 }
